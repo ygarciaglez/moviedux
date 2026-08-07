@@ -1,19 +1,21 @@
-import React, {useState, useEffect} from "react";
-import '../styles.css';
+import React, { useState, useEffect } from "react";
+import "../styles.css";
+import MovieCard from "./MovieCard";
 
-export default function MoviesGrid(){
+export default function MoviesGrid() {
+  const [movies, setMovies] = useState([]);
 
-    const [movies, setMovies] = useState([]);
+  useEffect(() => {
+    fetch("movies.json")
+      .then((response) => response.json())
+      .then((response) => setMovies(response));
+  }, []);
 
-    useEffect(()=>{
-        fetch("movies.json")
-        .then(response => response.json())
-        .then(response => setMovies(response))
-    }, [])
-
-    return(
-        <div>
-            {movies.length}
-        </div>
-    );
+  return (
+    <div className="movies-grid">
+      {movies.map((movie) => (
+        <MovieCard movie={movie} key={movie.id} />
+      ))}
+    </div>
+  );
 }
